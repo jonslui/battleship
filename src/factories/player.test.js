@@ -42,7 +42,7 @@ test('computer player can choose a random valid coordinate', () => {
   const randomCoord = computerPlayer.randomCoord();
 
   expect(randomCoord).toBeGreaterThanOrEqual(0);
-  expect(randomCoord).toBeLessThanOrEqual(49);
+  expect(randomCoord).toBeLessThanOrEqual(99);
 })
 
 test('computer player can launch attacks', () => {
@@ -52,5 +52,5 @@ test('computer player can launch attacks', () => {
   const result = computerPlayer.launchAttack(randomCoord);
 
   expect(result).toBeGreaterThanOrEqual(0);
-  expect(randomCoord).toBeLessThanOrEqual(49);
+  expect(randomCoord).toBeLessThanOrEqual(99);
 })
