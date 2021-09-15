@@ -1,21 +1,22 @@
-const ship = (length, name) => {
+const ship = (coords, name) => {
   let state = {
     name: name,
-    length: length,
+    length: coords.length,
+    coords: coords,
     hits: [],
     sunk: false,
   }
   
   return Object.assign(
-    {state: state},
+    { state: state },
     hit(state),
     isSunk(state),
   )
 }
 
 const hit = (state) => ({
-  hit: (location) => { 
-    state.hits.push(location);
+  hit: (coord) => { 
+    state.hits.push(coord);
   }
 })
 
