@@ -14,6 +14,8 @@ test('player.is_human === false for computer players', () => {
 
 test('human players can launch attacks', () => {
   let humanPlayer = player(true);
+  humanPlayer.populateAvailableMoves(0);
+
   const result = humanPlayer.launchAttack(1);
 
   expect(result).toBe(1);
@@ -21,6 +23,7 @@ test('human players can launch attacks', () => {
 
 test('attacked coords are removed from state.available_moves', () => {
   let humanPlayer = player(true);
+  humanPlayer.populateAvailableMoves(0);
 
   const coord = humanPlayer.launchAttack(1);
   const result = humanPlayer.state.available_moves.includes(coord);
@@ -30,6 +33,8 @@ test('attacked coords are removed from state.available_moves', () => {
 
 test('returns false if the same coord is attacked twice', () => {
   let humanPlayer = player(true);
+  humanPlayer.populateAvailableMoves(0);
+
 
   humanPlayer.launchAttack(1);
   const result = humanPlayer.launchAttack(1);
@@ -39,18 +44,22 @@ test('returns false if the same coord is attacked twice', () => {
 
 test('computer player can choose a random valid coordinate', () => {
   let computerPlayer = player(false);
+  computerPlayer.populateAvailableMoves(100);
+
   const randomCoord = computerPlayer.randomCoord();
 
-  expect(randomCoord).toBeGreaterThanOrEqual(0);
-  expect(randomCoord).toBeLessThanOrEqual(99);
+  expect(randomCoord).toBeGreaterThanOrEqual(100);
+  expect(randomCoord).toBeLessThanOrEqual(199);
 })
 
 test('computer player can launch attacks', () => {
   let computerPlayer = player(false);
+  computerPlayer.populateAvailableMoves(100);
+
   const randomCoord = computerPlayer.randomCoord();
   
   const result = computerPlayer.launchAttack(randomCoord);
 
-  expect(result).toBeGreaterThanOrEqual(0);
-  expect(randomCoord).toBeLessThanOrEqual(99);
+  expect(result).toBeGreaterThanOrEqual(100);
+  expect(randomCoord).toBeLessThanOrEqual(199);
 })

@@ -1,3 +1,20 @@
+body {
+  height: 100%;
+  width: 100%;
+}
+
+#header {
+  text-align: center;
+  font-size: 50px;
+}
+
+#message {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 35px;
+  padding-bottom: 20px;
+}
+
 #content{
   display: flex;
   flex-wrap: wrap;
@@ -23,7 +40,6 @@
 }
 
 
-/* don't have to hover over your own tiles */
 .player1_tile {
   width: 40px;
   height: 40px;
@@ -34,9 +50,10 @@
   width: 40px;
   height: 40px;
 }
-.player2_tile:hover{
-  width: 40px;
-  height: 40px;
+.player2_tile:not(.nohover):hover{
+  width: 30px;
+  height: 30px;
+  margin: 5px;
   background-color: rgb(218, 115, 115);
   border-radius: 50%;
   display: inline-block;
@@ -44,25 +61,41 @@
 
 
 .ship {
-  background-color: black;
-  /* margin-top: 5px;
-  margin-bottom: 5px; */
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  background-color: gray;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .miss{
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
   background-color: white;
   border-radius: 50%;
   display: inline-block;
 }
 
 .hit{
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
   background-color: red;
   border-radius: 50%;
   display: inline-block;
+}
+
+#gameover_container {
+  display: none;
+  z-index: 1;
+  text-align: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
 }

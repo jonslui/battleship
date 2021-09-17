@@ -20,7 +20,7 @@ test('missed attacks are added to state.missed_attacks', () => {
 test('hits are not added to state.missed_attacks', () => {
   let newGameboard = gameboard();
   newGameboard.createShip([1,2,3,4,5], 'Carrier');
-  
+
   newGameboard.receiveAttack(1);
 
   expect(newGameboard.state.missed_attacks.length).toBe(0);

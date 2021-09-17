@@ -15,7 +15,6 @@ const gameboard = () => {
   )
 }
 
-// createShip, createShips, or createCarrier
 const createShip = (state) => ({
   createShip: (coords, name) => {
     state.ships.push(ship(coords, name));
