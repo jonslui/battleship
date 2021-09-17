@@ -22,13 +22,13 @@ const gameController = () => {
 const initializeGame = (state) => ({
   initializeGame: () => {
      // Player 1 Data initialization
-    state.player1 = player(true, true);
+    state.player1 = player(true);
     state.player1.populateAvailableMoves(100);
     state.player1Board = gameboard();
     state.player1Board.createShip([0,1,2,3,4], 'Carrier');
 
     // Player 2 Data initialization
-    state.player2 = player(true, false);
+    state.player2 = player(true);
     state.player2.populateAvailableMoves(0);
     state.player2Board = gameboard();
     state.player2Board.createShip([100,101,102,103,104], 'Carrier');
@@ -47,6 +47,10 @@ const initializeGame = (state) => ({
   }
 })
 
+/*
+  Pass winner through pubsub emit message to be printed on gameover screen (?)
+  Set timeout added to give some time between player move and computer move (?)
+*/
 const gameLoop = (state) => ({
   gameLoop: () => {
     for(let i = 100; i < 200; i ++ ){
@@ -59,6 +63,7 @@ const gameLoop = (state) => ({
           const p1Contact = state.player2Board.receiveAttack(coord);
           state.player2DOMBoard.changeTileDisplay(coord, true, p1Contact);
           
+          // check for win
           if(state.player2Board.shipsRemaining() === false){
             events.emit('gameover')
             return;
@@ -68,6 +73,12 @@ const gameLoop = (state) => ({
           const player2Coord = state.player2.randomCoord();
           const p2Contact = state.player1Board.receiveAttack(state.player2.launchAttack(player2Coord));
           state.player1DOMBoard.changeTileDisplay(player2Coord, true, p2Contact);
+
+          // check for win
+          if(state.player1Board.shipsRemaining() === false){
+            events.emit('gameover')
+            return;
+          };
         }
       })
     }

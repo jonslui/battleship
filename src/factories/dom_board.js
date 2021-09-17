@@ -14,21 +14,29 @@ const DOMboard = () => {
   )
 }
 
-// Creates the board and appends it to the content container
+/*
+  1. Create the board add gameboard class and id (either player1_board or player2_board)
+  2. Append to the div with id gameboards_container
+  3. Set state.board equal to gameboard
+*/
 const createBoard = (state) => ({
   createBoard: (id) => {
-    const contentContainer = document.getElementById('content');
+    const container = document.getElementById('gameboards_container');
     const gameboard = document.createElement('div');
     gameboard.setAttribute('class', 'gameboard')
     gameboard.setAttribute('id', id);
-    contentContainer.appendChild(gameboard);
+    container.appendChild(gameboard);
   
     state.board = gameboard;
   }
 })
 
-// Creates tiles with id corresponding to moves in the player's available moves
-const createTiles = (state) => ({
+/*
+  1. Create 100 tile with individual ids, offset by 0 or 100 (according to whether it is player 1 or 2)
+  2. if the hover variable passed into the function is true, add class player2_tile which has the hover attribute. Otherwise, add class player1_tile.
+  3. Set id and append to board
+*/
+  const createTiles = (state) => ({
   createTiles: (hover, startingId) => {
     for(let i = startingId; i < startingId + 100; i += 1){
       const tile = document.createElement('div');
@@ -37,16 +45,16 @@ const createTiles = (state) => ({
       
       tile.setAttribute('id', i);
 
-      // Add tile to state.tiles so it can be changed easily later
       state.tiles[i] = tile;
 
-      // add child to board
       state.board.appendChild(tile);
     }
   }
 })
 
-// renders ships on the board
+/*
+  renders ships on the board by removing player1_tile class from a tile and adding the ship class
+*/
 const createShips = () => ({
   createShips: (gameboardData) => {
     gameboardData.state.ships.forEach((ship) => {
@@ -59,10 +67,13 @@ const createShips = () => ({
   }
 })
 
-// changes the tile after an attack has been launched
+
+/*
+  changes the tile after an attack has been launched by changing it's class to hit or miss
+*/
 const changeTileDisplay = (state) => ({
   changeTileDisplay: (id, bool, contact) => {
-    let tile = state.tiles[id]
+    let tile = state.tiles[id];
 
     if (bool && contact != undefined) {
       tile.setAttribute('class', 'hit');
@@ -71,6 +82,5 @@ const changeTileDisplay = (state) => ({
     } 
   }
 })
-
 
 export default DOMboard;

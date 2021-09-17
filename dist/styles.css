@@ -15,12 +15,10 @@ body {
   padding-bottom: 20px;
 }
 
-#content{
+#gameboards_container{
   display: flex;
   flex-wrap: wrap;
 }
-
-
 .gameboard {
   display: flex;
   flex-wrap: wrap;

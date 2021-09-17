@@ -11,7 +11,7 @@ const game = () => {
     Then initalizes game and begins the loop
   */
   function newGame(){
-    const gameboardContainer = document.getElementById('content');
+    const gameboardContainer = document.getElementById('gameboards_container');
 
     if (gameboardContainer.firstChild != null ){
       while (gameboardContainer.firstChild){

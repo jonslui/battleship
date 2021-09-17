@@ -1,4 +1,4 @@
-const player = (isHuman, isCurrentPlayer) => {
+const player = (isHuman) => {
   let state = {
     is_human: isHuman,
     available_moves: [],
@@ -12,24 +12,26 @@ const player = (isHuman, isCurrentPlayer) => {
   )
 }
 
+/*
+  if state.available_moves contains the coordinate, it is spliced from the array and returned
+  if state.available_moves does not contain the coordinate, it returns false; 
+*/
 const launchAttack = (state) => ({
   launchAttack: (coord) => {
-    /*
-      if state.available_moves contains the coordinate, it is spliced from the array and returned
-      if state.available_moves does not contain the coordinate, it returns false; 
-    */
     return state.available_moves.includes(coord) ? state.available_moves.splice(state.available_moves.indexOf(coord), 1)[0] : false;
   }
 });
 
+
+/*
+  returns a random coord from the state.available_moves array
+*/
 const randomCoord = (state) => ({
   randomCoord: () => {    
-    /*
-      returns a random coord from the state.available_moves array
-    */
     return state.available_moves[~~(Math.random() * state.available_moves.length)];
   }
 })
+
 
 /*
   This function is called when a player is created.
