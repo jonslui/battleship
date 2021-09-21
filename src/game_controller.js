@@ -19,19 +19,24 @@ const gameController = () => {
   )
 }
 
+
+/* 
+  Initialize game controller state data, 
+  create players, gameboards, and dom elements
+*/
 const initializeGame = (state) => ({
-  initializeGame: () => {
+  initializeGame: (player1_ships, player2_ships) => {
      // Player 1 Data initialization
     state.player1 = player(true);
     state.player1.populateAvailableMoves(100);
     state.player1Board = gameboard();
-    state.player1Board.createShip([0,1,2,3,4], 'Carrier');
+    state.player1Board.state.ships = player1_ships;
 
     // Player 2 Data initialization
     state.player2 = player(true);
     state.player2.populateAvailableMoves(0);
     state.player2Board = gameboard();
-    state.player2Board.createShip([100,101,102,103,104], 'Carrier');
+    state.player2Board.state.ships = player2_ships;
 
     // Create and Render Board 1 DOM elements 
     state.player1DOMBoard = DOMboard();
@@ -43,13 +48,19 @@ const initializeGame = (state) => ({
     state.player2DOMBoard = DOMboard();
     state.player2DOMBoard.createBoard('player2_board');
     state.player2DOMBoard.createTiles(true, 100);
-    state.player2DOMBoard.createShips(state.player2Board);
   }
 })
 
+
 /*
-  Pass winner through pubsub emit message to be printed on gameover screen (?)
-  Set timeout added to give some time between player move and computer move (?)
+  1. Add an event listener to each tile on player 2's board (ids between 100 and 200).
+  
+  2. Human player: On click, check if the player is selecting a valid tile to attack by calling gameboard.launchAttack
+  3. If it's valid, call changeTileDisplay to reflect whether it was a hit or miss.
+  4. Check to see if other player still has ships left -- If no, emit a pubsub signal to trigger the endGame function from index.js.
+
+  5. Computer player: select a random coordinate to attack by calling gameboard.randomCoord
+  6. Repeat steps 3 and 4 for Computer player.
 */
 const gameLoop = (state) => ({
   gameLoop: () => {
@@ -65,18 +76,18 @@ const gameLoop = (state) => ({
           
           // check for win
           if(state.player2Board.shipsRemaining() === false){
-            events.emit('gameover')
+            events.emit('end game', 'Player 1');
             return;
           };
 
-          // player2's attacks
+          // player2 attacks
           const player2Coord = state.player2.randomCoord();
           const p2Contact = state.player1Board.receiveAttack(state.player2.launchAttack(player2Coord));
           state.player1DOMBoard.changeTileDisplay(player2Coord, true, p2Contact);
 
           // check for win
           if(state.player1Board.shipsRemaining() === false){
-            events.emit('gameover')
+            events.emit('end game', 'Player 2');
             return;
           };
         }

@@ -31,6 +31,7 @@ const createBoard = (state) => ({
   }
 })
 
+
 /*
   1. Create 100 tile with individual ids, offset by 0 or 100 (according to whether it is player 1 or 2)
   2. if the hover variable passed into the function is true, add class player2_tile which has the hover attribute. Otherwise, add class player1_tile.
@@ -62,6 +63,7 @@ const createShips = () => ({
         const tile = document.getElementById(coord);
         tile.removeAttribute('class', 'player1_tile');
         tile.setAttribute('class', 'ship');
+        tile.classList.add(ship.state.name);
       })
     });
   }
@@ -82,5 +84,6 @@ const changeTileDisplay = (state) => ({
     } 
   }
 })
+
 
 export default DOMboard;
