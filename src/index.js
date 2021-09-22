@@ -1,10 +1,12 @@
 import gameController from './game_controller';
 import shipPlacement from './ship_placement';
+import messages from './messages';
 
 const game = () => {
   let state = {
     controller: gameController(),
     shipPlacement: shipPlacement(),
+    gameMessages: messages(),
   }
 
 
@@ -74,6 +76,7 @@ const game = () => {
   return Object.assign(
     {
       controller: state.controller,
+      gameMessages: state.gameMessages,
       endGame,
       newGame,
       beginGame,
@@ -85,7 +88,24 @@ const game = () => {
 let battleship = game();
 battleship.newGame();
 
-// Event listeners
+// pubsub subscribers
+// renders placement screen/instructions to place ships
 events.on('get ship placement', battleship.newGame);
+events.on('get ship placement', battleship.gameMessages.placeShips);
+
+// begins game/instructions on how to attack
 events.on('ships placed', battleship.beginGame);
+events.on('ships placed', battleship.gameMessages.attack);
+
+// reveals gameover screen/writes message congratulating winner
 events.on('end game', battleship.endGame);
+events.on('end game', battleship.gameMessages.winner);
+
+// informs of a hit (publisher inside ship factory)
+events.on('hit', battleship.gameMessages.hit);
+
+// informs of a miss (publisher inside ship factory)
+events.on('miss', battleship.gameMessages.miss);
+
+// informs of a ship being destroyed (publisher inside gameboard factory)
+events.on('sunk', battleship.gameMessages.sunk);

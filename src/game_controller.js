@@ -10,6 +10,7 @@ const gameController = () => {
     player2Board: null,
     player1DOMBoard: null,
     player2DOMBoard: null,
+    player1turn: true,
   }
 
   return Object.assign(
@@ -67,29 +68,37 @@ const gameLoop = (state) => ({
     for(let i = 100; i < 200; i ++ ){
       const tile = document.getElementById(i);
       tile.addEventListener('click', () => {
+        if ( state.player1turn == true ) {  
         // if this coord == false, it's an invalid coord (aka called before) and the function does nothing;
-        const coord = state.player1.launchAttack(i);
+          const coord = state.player1.launchAttack(i);
 
-        if (coord != false) {
-          const p1Contact = state.player2Board.receiveAttack(coord);
-          state.player2DOMBoard.changeTileDisplay(coord, true, p1Contact);
-          
-          // check for win
-          if(state.player2Board.shipsRemaining() === false){
-            events.emit('end game', 'Player 1');
-            return;
-          };
+          if (coord != false) {
+            state.player1turn = false;
 
-          // player2 attacks
-          const player2Coord = state.player2.randomCoord();
-          const p2Contact = state.player1Board.receiveAttack(state.player2.launchAttack(player2Coord));
-          state.player1DOMBoard.changeTileDisplay(player2Coord, true, p2Contact);
+            const p1Contact = state.player2Board.receiveAttack(coord);
+            state.player2DOMBoard.changeTileDisplay(coord, true, p1Contact);
+            
+            // check for win
+            if(state.player2Board.shipsRemaining() === false){
+              events.emit('end game', 'Player 1');
+              return;
+            };
+            
+            setTimeout( () => {
+              // player2 attacks
+              const player2Coord = state.player2.randomCoord();
+              const p2Contact = state.player1Board.receiveAttack(state.player2.launchAttack(player2Coord));
+              state.player1DOMBoard.changeTileDisplay(player2Coord, true, p2Contact);
 
-          // check for win
-          if(state.player1Board.shipsRemaining() === false){
-            events.emit('end game', 'Player 2');
-            return;
-          };
+              // check for win
+              if(state.player1Board.shipsRemaining() === false){
+                events.emit('end game', 'Player 2');
+                return;
+              };
+              
+              state.player1turn = true;
+            }, 1000);
+          }
         }
       })
     }

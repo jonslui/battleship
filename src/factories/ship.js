@@ -21,6 +21,7 @@ const ship = (coords, name) => {
 const hit = (state) => ({
   hit: (coord) => { 
     state.hits.push(coord);
+    events.emit('hit')
   }
 })
 
@@ -32,6 +33,7 @@ const isSunk = (state) => ({
   isSunk: () => { 
     if(state.hits.length >= state.length){
       state.sunk = true;
+      events.emit('sunk', state.name);
     }
   }
 })

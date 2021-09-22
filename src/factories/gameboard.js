@@ -27,14 +27,14 @@ const createShip = (state) => ({
 
 
 /* 
-  for loop:
-    1. check if any ship has the corresponding coordinate, 
-    2. if one does run .hit()
-    3. run .isSunk() to update state.ships[i].state.sunk
-    4. exit function and remove ship from state.ships[i] if it was sunk
+    for loop:
+      1. check if any ship has the corresponding coordinate, 
+      2. if one does run .hit()
+      3. run .isSunk() to update state.ships[i].state.sunk
+      4. exit function and remove ship from state.ships[i] if it was sunk
 
-  If function wasn't exited during for loop, a ship was not hit:
-    add coord to state.missed_attacks
+    If function wasn't exited during for loop, a ship was not hit:
+      emit 'miss' pubsub message to update message display and add coord to state.missed_attacks
 */
 const receiveAttack = (state) => ({
   receiveAttack: (coords) => {
@@ -47,6 +47,7 @@ const receiveAttack = (state) => ({
       }
     }
   
+    events.emit('miss');
     state.missed_attacks.push(coords);
   }
 })

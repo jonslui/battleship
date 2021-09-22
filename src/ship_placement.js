@@ -15,6 +15,7 @@ const shipPlacement = () => {
     possible_vertical_placements: null,
     placed_successfully: null,
     computer_gameboard: null,
+    clicked_ship_tile_number: null,
   }
 
   return Object.assign(
@@ -74,7 +75,7 @@ const random = (state) => ({
           - Add the CSS class: hide to the event target while it is being dragged (removes visual from the ship_container dom element)
       i. dragend eventlistener:
           - if the ship was placed successfully do nothing, otherwise remove the CSS class hide so it will become visible in the ship_container dom element for future placement.
-  3. Populate each ship's div element with tiles corresponding to the length of the ship.
+  3. Populate each ship's div element with tiles corresponding to the length of the ship, and an event listener that sets which tile was clicked when dragging the ship. (recalled later in addTileListeners for determining if a valid location / placing a ship)
 */
 const createDraggableShips = (state) => ({
   createDraggableShips: () => {
@@ -114,6 +115,12 @@ const createDraggableShips = (state) => ({
         let tile = document.createElement('div');
         tile.setAttribute('class', 'ship');
         tile.classList.add(ship[1]);
+
+        tile.addEventListener('mousedown', () => {
+          state.clicked_ship_tile_number = i;
+          console.log(state.clicked_ship_tile_number);
+        })
+
         shipDiv.appendChild(tile);
       }
 
@@ -129,7 +136,7 @@ const createDraggableShips = (state) => ({
   1. dragenter: 
       i. checks if state.horizontal is true or not, 
       ii. runs the gameboard function possibleHorizontalPlacements or possibleVerticalPlacements and filters the results to
-          for any possible placement arrays where the first number matches the event tile id.
+          for any possible placement arrays where the dragged ships clicked tile matches the event tile id.
       iii. If any match, highlight the tile green since it is a valid placement, otherwise highlight red.
 
   2. dragleave: remove possible valid_drop and invalid_drop classes from the tile after leaving to reset visual
@@ -154,9 +161,9 @@ const addTileListeners = (state) => ({
         let coords;
 
         if(state.horizontal === true) {
-          coords = state.gameboard.possibleHorizontalPlacements(state.selected_ship_length).filter(placement => (placement[0] == event.target.id));
+          coords = state.gameboard.possibleHorizontalPlacements(state.selected_ship_length).filter(placement => (placement[state.clicked_ship_tile_number] == event.target.id));
         } else {
-          coords = state.gameboard.possibleVerticalPlacements(state.selected_ship_length).filter(placement => (placement[0] == event.target.id));
+          coords = state.gameboard.possibleVerticalPlacements(state.selected_ship_length).filter(placement => (placement[state.clicked_ship_tile_number] == event.target.id));
         }
         
         coords.length == 0 ? event.target.classList.add('invalid_drop') : event.target.classList.add('valid_drop');
@@ -181,9 +188,9 @@ const addTileListeners = (state) => ({
 
         let coords;
         if(state.horizontal === true) {
-          coords = state.gameboard.possibleHorizontalPlacements(state.selected_ship_length).filter(placement => (placement[0] == event.target.id))[0];
+          coords = state.gameboard.possibleHorizontalPlacements(state.selected_ship_length).filter(placement => (placement[state.clicked_ship_tile_number] == event.target.id))[0];
         } else {
-          coords = state.gameboard.possibleVerticalPlacements(state.selected_ship_length).filter(placement => (placement[0] == event.target.id))[0];
+          coords = state.gameboard.possibleVerticalPlacements(state.selected_ship_length).filter(placement => (placement[state.clicked_ship_tile_number] == event.target.id))[0];
         }
 
 

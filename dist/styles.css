@@ -1,6 +1,8 @@
 body {
   height: 100%;
   width: 100%;
+  font-family: 'Fira Sans', sans-serif;
+
 }
 
 #header {
@@ -8,11 +10,26 @@ body {
   font-size: 50px;
 }
 
-#message {
+#message_board {
   padding-top: 10px;
   text-align: center;
-  font-size: 35px;
+  font-size: 32px;
   padding-bottom: 20px;
+  margin: auto;
+  height: 40px;
+}
+.message_board_animation{
+  /* animation */
+  white-space: nowrap;
+  overflow: hidden;
+  animation: type 2s linear 0s ;
+}
+@keyframes type {
+  from {
+    width: 0;
+  } to {
+    width: 700px;
+  }
 }
 
 #gameboards_container{
@@ -83,11 +100,13 @@ body {
   height: 40px;
 }
 .player2_tile:not(.nohover):hover{
-  width: 30px;
-  height: 30px;
-  margin: 5px;
-  background-color: rgb(218, 115, 115);
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  opacity: 20%;
+  background-color: gray;
+  /* margin: 5px; */
+  /* background-color: rgb(218, 115, 115); */
+  /* border-radius: 50%; */
   display: inline-block;
 }
 
