@@ -52,8 +52,23 @@ const game = () => {
     It gets the container for the ending screen which has a congratulations for the winner and a button to play again.
   */
   function endGame(){
-    let gameoverContainer = document.getElementById('gameover_container');
+    const gameboardContainer = document.getElementById('gameboards_container');
+    const gameoverContainer = document.getElementById('gameover_container');
+    const button = document.getElementById('New Game');
+
+
     gameoverContainer.style.display = 'inline-block';
+
+    button.addEventListener('click', () => {
+      if (gameboardContainer.firstChild != null ){
+        while (gameboardContainer.firstChild){
+          gameboardContainer.removeChild(gameboardContainer.firstChild);
+        }
+      }
+
+      gameoverContainer.style.display = 'none';
+      events.emit('get ship placement');
+    });
   }
 
   return Object.assign(
