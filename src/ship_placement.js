@@ -1,5 +1,5 @@
 import gameboard from './factories/gameboard';
-import gameboardDOM from './factories/dom_board';
+import gameboardDOM from './factories/gameboard_dom';
 
 const shipPlacement = () => {
   let state = {
@@ -118,7 +118,6 @@ const createDraggableShips = (state) => ({
 
         tile.addEventListener('mousedown', () => {
           state.clicked_ship_tile_number = i;
-          console.log(state.clicked_ship_tile_number);
         })
 
         shipDiv.appendChild(tile);

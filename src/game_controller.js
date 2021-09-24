@@ -1,6 +1,6 @@
 import gameboard from './factories/gameboard';
 import player from './factories/player';
-import DOMboard from './factories/dom_board';
+import boardDOM from './factories/gameboard_dom';
 
 const gameController = () => {
   let state = {
@@ -8,8 +8,8 @@ const gameController = () => {
     player2: null,
     player1Board: null,
     player2Board: null,
-    player1DOMBoard: null,
-    player2DOMBoard: null,
+    player1BoardDOM: null,
+    player2BoardDOM: null,
     player1turn: true,
   }
 
@@ -40,15 +40,15 @@ const initializeGame = (state) => ({
     state.player2Board.state.ships = player2_ships;
 
     // Create and Render Board 1 DOM elements 
-    state.player1DOMBoard = DOMboard();
-    state.player1DOMBoard.createBoard('player1_board');
-    state.player1DOMBoard.createTiles(false, 0);
-    state.player1DOMBoard.createShips(state.player1Board);
+    state.player1BoardDOM = boardDOM();
+    state.player1BoardDOM.createBoard('player1_board');
+    state.player1BoardDOM.createTiles(false, 0);
+    state.player1BoardDOM.createShips(state.player1Board);
 
     // Create and Render Board 2 DOM elements 
-    state.player2DOMBoard = DOMboard();
-    state.player2DOMBoard.createBoard('player2_board');
-    state.player2DOMBoard.createTiles(true, 100);
+    state.player2BoardDOM = boardDOM();
+    state.player2BoardDOM.createBoard('player2_board');
+    state.player2BoardDOM.createTiles(true, 100);
   }
 })
 
@@ -76,7 +76,7 @@ const gameLoop = (state) => ({
             state.player1turn = false;
 
             const p1Contact = state.player2Board.receiveAttack(coord);
-            state.player2DOMBoard.changeTileDisplay(coord, true, p1Contact);
+            state.player2BoardDOM.changeTileDisplay(coord, true, p1Contact);
             
             // check for win
             if(state.player2Board.shipsRemaining() === false){
@@ -84,11 +84,14 @@ const gameLoop = (state) => ({
               return;
             };
             
+            // player2's attacks
             setTimeout( () => {
-              // player2 attacks
-              const player2Coord = state.player2.randomCoord();
+              let player2Coord;
+              
+              state.player2.state.surrounding_tiles.length > 0 ? player2Coord = state.player2.checkSurroundings(): player2Coord = state.player2.randomCoord();
               const p2Contact = state.player1Board.receiveAttack(state.player2.launchAttack(player2Coord));
-              state.player1DOMBoard.changeTileDisplay(player2Coord, true, p2Contact);
+              p2Contact != undefined ? state.player2.populateSurroundingTiles(player2Coord): '';
+              state.player1BoardDOM.changeTileDisplay(player2Coord, true, p2Contact);
 
               // check for win
               if(state.player1Board.shipsRemaining() === false){

@@ -1,5 +1,5 @@
 // This factory is in charge of creating and manipulating the DOM element of the game
-const DOMboard = () => {
+const boardDOM = () => {
   let state = {
     board: null,
     tiles: {},
@@ -33,7 +33,7 @@ const createBoard = (state) => ({
 
 
 /*
-  1. Create 100 tile with individual ids, offset by 0 or 100 (according to whether it is player 1 or 2)
+  1. Create 100 tiles with individual ids, offset by 0 or 100 (according to whether it is player 1 or 2)
   2. if the hover variable passed into the function is true, add class player2_tile which has the hover attribute. Otherwise, add class player1_tile.
   3. Set id and append to board
 */
@@ -86,4 +86,4 @@ const changeTileDisplay = (state) => ({
 })
 
 
-export default DOMboard;
+export default boardDOM;

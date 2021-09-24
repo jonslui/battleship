@@ -29,7 +29,7 @@ const createShip = (state) => ({
 /* 
     for loop:
       1. check if any ship has the corresponding coordinate, 
-      2. if one does run .hit()
+      2. if one does, run .hit()
       3. run .isSunk() to update state.ships[i].state.sunk
       4. exit function and remove ship from state.ships[i] if it was sunk
 

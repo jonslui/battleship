@@ -173,4 +173,21 @@ body {
   width: 100%;
   height: 100%;
   position: fixed;
+
+}
+#new_game_button_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 230px;
+  height: 200px;  
+  background-color: gray;
+  opacity: 80%
+}
+#new_game_button {
+  border: none;
+  z-index: 1;
+  margin: auto;
+  width: 200px;
+  height: 50px;
 }

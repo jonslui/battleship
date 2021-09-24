@@ -56,7 +56,7 @@ const game = () => {
   function endGame(){
     const gameboardContainer = document.getElementById('gameboards_container');
     const gameoverContainer = document.getElementById('gameover_container');
-    const button = document.getElementById('New Game');
+    const button = document.getElementById('new_game_button');
 
 
     gameoverContainer.style.display = 'inline-block';

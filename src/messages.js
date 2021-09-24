@@ -1,6 +1,6 @@
 const messages = () => {
   let state = {
-
+    
   }
 
   function resetAnimation(new_message){
@@ -16,9 +16,8 @@ const messages = () => {
     attack(resetAnimation),
     hit(resetAnimation),
     miss(resetAnimation),
-    winner(),
-    sunk(),
-
+    winner(resetAnimation),
+    sunk(resetAnimation),
   )
 }
 
