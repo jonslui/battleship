@@ -16,7 +16,7 @@ To keep the game competitive, I added 'intelligent' decision-making to the AI. I
 
 ## Usage
 
-1. Click this link: https://jonslui.github.io/battleship/dist/index.html, or download files and open index.html in a browser of your choice.
+1. Click this link: https://jonslui.github.io/battleship/dist/index.html or download files and open index.html in a browser of your choice.
 
 
 https://user-images.githubusercontent.com/34390833/134720993-76da14bc-5d6c-4736-9b97-c068306b2be8.mov
